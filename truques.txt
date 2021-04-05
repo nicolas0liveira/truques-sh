@@ -1,0 +1,38 @@
+##################
+# Meus Truques  #
+#################
+
+
+# Serpro DNS ovpn rede
+systemd-resolve --status
+
+ # forçar resolução do dominio serpro pela interface ovpn
+sudo systemd-resolve --set-domain=serpro --interface=ovpntun0
+ 
+ # setar os dns específicos na interface X
+sudo systemd-resolve --set-dns=8.8.8.8 --set-dns=8.8.4.4 --interface=enp5s0
+
+ # inserir na configuração do ovpn para forçar o dominio serpro
+sudo sed '/domains=()/s/()/("serpro true")/' -i /opt/ovpnserpro/ovpnprivsep
+
+ # reiniciar configurações de DNS
+systemctl restart systemd-resolved
+
+ # Ver rotas
+ip r
+
+ # Ver interfaces
+ip a
+
+ # Apagar interfaces
+ip link set dev br-6bab82831303 down
+
+
+# Reiniciar Bash RC
+
+source ~/.bashrc
+ou 
+. ~/.bashrc
+
+
+

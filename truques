@@ -1,22 +1,19 @@
-#######################################
-#Meus Truques doidos copiados do Fred!
-########################################
+#!/bin/bash
+# Procura dicas no arquivo de truques
+# modificado por Nícolas, de Fred Camara - rev 2018-07-12
+# colocar o arquivo em: i) /usr/local/bin ou ii) /local/share/bin  iii) no path
 
+args=$@
+arq=$HOME/truques-sh/truques.txt
 
-# Serpro DNS ovpn
-systemd-resolve --status
-sudo systemd-resolve --set-domain=serpro --interface=ovpntun0
-sudo systemd-resolve --set-dns=8.8.8.8 --set-dns=8.8.4.4 --interface=enp5s0
-sudo sed '/domains=()/s/()/("serpro true")/' -i /opt/ovpnserpro/ovpnprivsep
-systemctl restart systemd-resolved
-ip r
-ip a
+headers=$(sed -n '/^#/p' "$arq")
 
- # apagar interfaces
-ip link set dev br-6bab82831303 down
+for i in $args; do
+  headers=$(sed -n "/^#.*$i/Ip" <<< "$headers")
+done
 
+echo -e '\n'
 
-#Teste
-
-asdasdasd
-
+while read header; do
+  sed -n "1,/^$header$/{s/^$header$/\o33[32m&\o33[0m/p;d};/^#/,\$d;p" "$arq"
+done <<< "$headers"
