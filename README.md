@@ -1,0 +1,2 @@
+# truques-sh
+meus truques
