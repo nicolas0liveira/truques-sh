@@ -1,0 +1,22 @@
+#######################################
+#Meus Truques doidos copiados do Fred!
+########################################
+
+
+# Serpro DNS ovpn
+systemd-resolve --status
+sudo systemd-resolve --set-domain=serpro --interface=ovpntun0
+sudo systemd-resolve --set-dns=8.8.8.8 --set-dns=8.8.4.4 --interface=enp5s0
+sudo sed '/domains=()/s/()/("serpro true")/' -i /opt/ovpnserpro/ovpnprivsep
+systemctl restart systemd-resolved
+ip r
+ip a
+
+ # apagar interfaces
+ip link set dev br-6bab82831303 down
+
+
+#Teste
+
+asdasdasd
+
