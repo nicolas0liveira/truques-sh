@@ -34,5 +34,9 @@ source ~/.bashrc
 ou 
 . ~/.bashrc
 
+# Recriar um dev tunel OVPN
+sudo /opt/ovpnserpro/openvpn --mktun --dev ovpntun0 --dev-type tun
+
+
 
 
