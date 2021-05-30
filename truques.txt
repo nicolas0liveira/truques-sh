@@ -3,28 +3,28 @@
 #################
 
 
-# Serpro DNS ovpn rede
+# Serpro DNS ovpn rede (vpn)(ovpn)(rede)
 systemd-resolve --status
 
-# forçar resolução do dominio serpro pela interface ovpn
+# forçar resolução do dominio serpro pela interface ovpn (vpn)(ovpn)(rede)
 sudo systemd-resolve --set-domain=serpro --interface=ovpntun0
  
-# setar os dns específicos na interface X
+# setar os dns específicos na interface X (vpn)(ovpn)(rede)
 sudo systemd-resolve --set-dns=8.8.8.8 --set-dns=8.8.4.4 --interface=enp5s0
 
-# inserir na configuração do ovpn para forçar o dominio serpro
+# inserir na configuração do ovpn para forçar o dominio serpro (vpn)(ovpn)(rede)
 sudo sed '/domains=()/s/()/("serpro true")/' -i /opt/ovpnserpro/ovpnprivsep
 
-# reiniciar configurações de DNS
+# reiniciar configurações de DNS (vpn)(ovpn)(rede)
 systemctl restart systemd-resolved
 
-# Ver rotas
+# Ver rotas (vpn)(ovpn)(rede)
 ip r
 
-# Ver interfaces
+# Ver interfaces (vpn)(ovpn)(rede)
 ip a
 
-# Apagar interfaces
+# Apagar interfaces (vpn)(ovpn)(rede)
 ip link set dev br-6bab82831303 down
 
 
