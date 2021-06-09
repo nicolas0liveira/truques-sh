@@ -2,6 +2,9 @@
 # Meus Truques  #
 #################
 
+# converter arquivo ods to xls
+soffice --convert-to xlsx demandas.ods
+
 
 # Serpro DNS ovpn rede (vpn)(ovpn)(rede)
 systemd-resolve --status
@@ -76,10 +79,17 @@ os.chdir(wDirNicolas)
 print(os.listdir())
 
 
-# import gzip com dados das cidades (python) (ingestão de dados) (analise exploratoria) 
+# import gzip com dados das cidades (python) (ingestão de dados) (dados) (cvs) (analise exploratoria)
 dados = pd.read_csv("https://github.com/wcota/covid19br/blob/master/cases-brazil-cities-time.csv.gz?raw=true", compression='gzip')
 dados["date"] = pd.to_datetime(df_cities["date"])
 dados.sample(10)
+
+ou
+
+file = "https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-states.csv"
+dados = pd.read_csv(file, "r", delimiter = ',', encoding="utf8")
+print(type(dados))
+dados.columns
 
 # convertendo data texto no formato de data (python) (dados) (analise exploratoria)
 dados["date"] = pd.to_datetime(df_cities["date"])
@@ -117,6 +127,8 @@ sns.heatmap(abs(dados.corr()), annot=True)
 
 # criando uma flag com base em um campo (python) (dados) (analise exploratoria)
 dados['flagIdoso'] = np.where(dados['Idade'] >= 70, 1, 0)
+ou
+df['is_adult'] = df.Age.apply(lambda age: age >= 18)
 
 
 # (link) (python) (matplotlib) (comandos) (graficos)
@@ -143,6 +155,12 @@ df["Magnitude"].resample("3s").apply([np.mean]).plot()
 # Ordenar dataframe  (python)
 df2 = df.sort_values(['Country Name', 'Ano'])
 
+# selecionar coluna no pandas/dataframe (python)(pandas)(dados)(analise exploratoria)
+df1 = df.iloc[0,0:2].copy() # To avoid the case where changing df1 also changes df
+
+selecionar registros de SP e que tem cod ibge>0
+df_cities_info.loc[(df_cities_info['ibge'] >0) & (df_cities_info['state'] == 'SP')]
+
 # Tipo dos dados  (python)
 df.dtypes
 
@@ -150,11 +168,41 @@ df.dtypes
 https://realpython.com/pandas-groupby/
 
 
+# tratar NA - Para descartar linhas se houver algum valor NaN: (python)(dados)(pandas)(analise exploratoria)
+df.dropna(axis = 0)
+
+# tratar NA - Para descartar colunas se houver algum valor NaN: (python)(dados)(pandas)(analise exploratoria)
+df.dropna(axis = 1)
+
+# tratar NA - Para descartar colunas nas quais mais de 10% dos valores estão ausentes:(python)(dados)(pandas)(analise exploratoria)
+df.dropna(thresh=len(df)*0.9, axis=1)
+
+# tratar NA - Para substituir todos os valores de NaN por um escalar: (python)(dados)(pandas)(analise exploratoria)
+df.fillna(value=10)
+
+# tratar NA - Para substituir os valores de NaN pelos valores da linha anterior: (python)(dados)(pandas)(analise exploratoria)
+df.fillna(axis=0, method='ffill')
+
+# tratar NA - Para substituir os valores de NaN pelos valores da coluna anterior: (python)(dados)(pandas)(analise exploratoria)
+df.fillna(axis=1, method='ffill')
+
+# tratar NA - Você também pode substituir os valores de NaN pelos valores da próxima linha ou coluna: (python)(dados)(pandas)(analise exploratoria)
+Replace with the values in the next row
+df.fillna(axis=0, method='bfill')
+
+Replace with the values in the next column
+df.fillna(axis=1, method='bfill')
+
+# tratar NA - substituição comum é trocar os valores de NaN pela média. (python)(dados)(pandas)(analise exploratoria)
+
+
+df['Age'].fillna(value=df['Age'].mean(), inplace=True)
+
 #########################################
 #### Funções personalizadas no Python
 #########################################
 
-# função personalizada: replaceMissingValues. Trata o nulo de acordo com a estratégia selecionada (funcoes)(função)(funcao)(python)
+# tratar NA - função personalizada: replaceMissingValues. Trata o nulo de acordo com a estratégia selecionada (funcoes)(função)(funcao)(python)
 
 import numpy as np
 from sklearn.impute import SimpleImputer
@@ -195,3 +243,11 @@ def standardVariables(df):
   
   
   
+#########################
+R
+#########################
+
+# biblioteca para fazer consultas SQL no dataframe R (r)(dados)(analise exploratoria)
+library(sqldf)
+sqldf("Select...
+      ")
