@@ -2,9 +2,12 @@
 # Meus Truques  #
 #################
 
+######################
+# Terminal or sh    #
+#####################
+
 # converter arquivo ods to xls
 soffice --convert-to xlsx demandas.ods
-
 
 # Serpro DNS ovpn rede (vpn)(ovpn)(rede)
 systemd-resolve --status
@@ -247,7 +250,221 @@ def standardVariables(df):
 R
 #########################
 
-# biblioteca para fazer consultas SQL no dataframe R (r)(dados)(analise exploratoria)
+
+#######################
+#R: Ingestão de dados
+#################
+
+# R (r)(dados)(analise exploratoria)(ingestão de dados) importar arquivo csv, importar arquivo xlsx, manipulando dataset com sql
+
+[manipulando dataset com sql]
 library(sqldf)
-sqldf("Select...
-      ")
+sqldf("Select...")
+
+[importando o arquivo csv]
+casos <- read_delim("FGV/Caso de Uso - Projeto Final/Caso de uso/20210525_Casos-e-obitos-ESP.csv", 
+                    ";", escape_double = FALSE, trim_ws = TRUE)
+
+[importando o arquivo xlsx]
+library("writexl")
+write_xlsx(vacinacao_obitos_idosos_pib,"obitos&Vacina&PIB.xlsx")
+
+
+# R (r)(dados)(analise exploratoria)(ingestão de dados) importar consumir dados api sem autenticacao
+
+[manipulando dataset com sql]
+library(sqldf)
+sqldf("Select...")
+
+[importando dados API sem necessidade de autenticacao]
+> Instalando os pacotes
+install.packages(c("httr", "jsonlite"))
+
+> Carregando os pacotes
+library(httr)
+library(jsonlite)
+
+> Separando a estrutura do endpoint 'endereço' que iremos acessar, em variáveis
+base_url <- "https://api.covid19api.com"
+path <- "country/brazil/status/confirmed"
+
+endpoint <- paste(base_url, path, sep="/")
+
+>  Fazendo uma solitação GET a API, passando o endereço da requisição e o query string,
+>  que são parâmetros que segundo a documentação da API esse endpoint pode receber
+res_api <- GET(
+  url = endpoint, 
+  query = list(
+    from = "2020-06-20T00:00:00Z",
+    to = "2020-07-07T00:00:00Z"
+  )
+)
+
+> Nesse momento os nossos dados da requisição estão contidos em um Unicode bruto,
+> sendo necessário converter seu conteúdo para um vetor de caracteres
+content_text <- rawToChar(res_api$content)
+
+> Convertendo a estrutura JSON no formato caratere para um objeto do R
+content_json <- fromJSON(content_text, flatten=TRUE)
+
+
+# R (r)(dados)(analise exploratoria)(ingestão de dados) importar consumir dados api com API KEY chave acesso
+
+[manipulando dataset com sql]
+library(sqldf)
+sqldf("Select...")
+
+[importando dados API com autenticacao CHAVE API_KEY]
+> Instalando os pacotes
+install.packages(c("httr", "jsonlite"))
+
+> Carregando os pacotes
+library(httr)
+library(jsonlite)
+
+> Separando a estrutura do endpoint 'endereço' que iremos acessar, em variáveis
+base_url <- "https://api.covid19api.com"
+path <- "country/brazil/status/confirmed"
+
+endpoint <- paste(base_url, path, sep="/")
+
+
+> Atribuindo o token a uma variável de ambiente do R
+> 1° opção: Será aberto um arquivo com todas as variáveis de ambiente e você poderá adicionar uma nova
+> usethis::edit_r_environ()
+>  2° opção: Cria uma variável, sem a necessidade de abrir o arquivo
+> Sys.setenv("KEY_API" = "sua_api")
+
+> Obtendo a variável de ambiente e atribuindo a uma nova variável
+key_api <- Sys.getenv("KEY_API")
+
+> Fazendo uma solitação GET a API, passando o endereço da requisição e o query string,
+> que neste caso, será a chave e que queremos os detalhes
+res_api <- GET(
+  url = endpoint, 
+  query = list(
+    apikey= key_api,
+    details = "true"
+  )
+)
+
+> Nesse momento os nossos dados da requisição estão contidos em um Unicode bruto,
+> sendo necessário converter seu conteúdo para um vetor de caracteres
+content_text <- rawToChar(res_api$content)
+
+> Convertendo a estrutura JSON no formato caratere para um objeto do R
+content_json <- fromJSON(content_text, flatten=TRUE)
+
+# R (r)(dados)(analise exploratoria)(ingestão de dados) importar consumir dados api basic auth autenticacao
+
+[manipulando dataset com sql]
+library(sqldf)
+sqldf("Select...")
+
+[importando dados API com autenticacao BASIC]
+> Instalando os pacotes
+install.packages(c("httr", "jsonlite"))
+
+> Carregando os pacotes
+library(httr)
+library(jsonlite)
+
+user <- "usuario_para_acesso_api"
+password <- "senha"
+
+endpoint <- "http://api.endereco.com"
+
+req <- GET(
+  url = endpoint, 
+  authenticate(
+    user, 
+    password, 
+    type = "basic"
+  )
+)
+
+> Nesse momento os nossos dados da requisição estão contidos em um Unicode bruto,
+> sendo necessário converter seu conteúdo para um vetor de caracteres
+content_text <- rawToChar(req$content)
+
+> Convertendo a estrutura JSON no formato caratere para um objeto do R
+content_json <- fromJSON(content_text, flatten=TRUE)
+
+######################
+##R Manipulando datas
+######################
+
+# R Manipulando dados datas - transformando a data em tipo date (lubridate)(ingestão de dados) 
+> install.packages('lubridate')
+library(lubridate)
+final$data_inicio <- dmy(final$data_inicio)
+
+
+###################
+R: processamento de texto
+###################
+
+# (processamento de texto) (char) substituir charactere, replace, chartr
+
+[substituir characteres]
+chartr("áéíó", "aeio", vacinas$Município)
+
+
+
+#################################
+R: Text Processing with stringr
+#################################
+
+# (link) (processamento de texto) (r) (dados) stringr
+https://www.mjdenny.com/Text_Processing_In_R.html
+https://github.com/rstudio/cheatsheets/blob/master/strings.pdf
+https://stringr.tidyverse.org/
+
+# processamento de texto stringr (r) (dados) (analise exploratoria) lowercase, concatenate text, split text, grep
+
+install.packages("stringr", dependencies = TRUE)
+library(stringr)
+
+my_string <- "Example STRING, with example numbers (12, 15 and also 10.2)?!"
+
+[lowercase]
+lower_string <- tolower(my_string)
+
+[concatenate text]
+second_string <- "Wow, two sentences."
+my_string <- paste(my_string,second_string,sep = " ")
+
+[split]
+my_string_vector <- str_split(my_string, "!")[[1]]
+
+Notice that the splitting character gets deleted, but we are now left with essentially two sentences, each stored as a separate string. Furthermore, note that a list object is returned the str_split() function, so to access the actual vector containing the split strings, we need to use the [[ ]] list operator and get the first entry.
+
+[grep]
+grep("\\?",my_string_vector)
+
+Now, let's imagine we are interested in sentences that contain questions marks. We can search for the string in the resulting my_string_vector that contains a "?" by using the grep() command. This command will return the index in the input vector that contains what we are looking for, or nothing if it could not find a match.
+
+[replace]
+str_replace_all(my_string, "e","___")
+
+[extract]
+str_extract_all(my_string,"[0-9]+")
+
+[cleaning text funcion]
+Clean_String <- function(string){
+    # Lowercase
+    temp <- tolower(string)
+    # Remove everything that is not a number or letter (may want to keep more 
+    # stuff in your actual analyses). 
+    temp <- stringr::str_replace_all(temp,"[^a-zA-Z\\s]", " ")
+    # Shrink down to just one white space
+    temp <- stringr::str_replace_all(temp,"[\\s]+", " ")
+    # Split it
+    temp <- stringr::str_split(temp, " ")[[1]]
+    # Get rid of trailing "" if necessary
+    indexes <- which(temp == "")
+    if(length(indexes) > 0){
+      temp <- temp[-indexes]
+    } 
+    return(temp)
+}
