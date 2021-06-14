@@ -255,6 +255,17 @@ R
 #R: Ingestão de dados
 #################
 
+# R (r)(dados)(analise exploratoria)(ingestão de dados) baixar arquivo no R, descompactar arquivo
+[baixando base ZIP]
+download.file(url = "http://www.mdic.gov.br/balanca/bd/comexstat-bd/ncm/EXP_COMPLETA.zip", # url do arquivo para baixar
+              destfile = "data/BASE_COMPLETA.zip") # arquivo de destino
+
+[Descompactando]
+datazip <- unzip("data/EXP_COMPLETA.zip", exdir = "data")
+
+[Usando]
+dados <- readr::read_csv2("data/EXP_COMPLETA.csv")
+
 # R (r)(dados)(analise exploratoria)(ingestão de dados) importar arquivo csv, importar arquivo xlsx, manipulando dataset com sql
 
 [manipulando dataset com sql]
@@ -275,6 +286,9 @@ write_xlsx(vacinacao_obitos_idosos_pib,"obitos&Vacina&PIB.xlsx")
 [manipulando dataset com sql]
 library(sqldf)
 sqldf("Select...")
+
+# (links) api R dataset ingestão de dados
+https://operdata.com.br/blog/trabalhando-com-api-no-r/
 
 [importando dados API sem necessidade de autenticacao]
 > Instalando os pacotes
