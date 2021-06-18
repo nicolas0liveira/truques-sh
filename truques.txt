@@ -280,6 +280,10 @@ casos <- read_delim("FGV/Caso de Uso - Projeto Final/Caso de uso/20210525_Casos-
 library("writexl")
 write_xlsx(vacinacao_obitos_idosos_pib,"obitos&Vacina&PIB.xlsx")
 
+# R (r)(dados)(analise exploratoria)(ingestão de dados) correlação com R correlacao
+>install.packages("PerformanceAnalytics")
+library(PerformanceAnalytics)
+chart.Correlation(dados, histogram=TRUE, pch=19)
 
 # R (r)(dados)(analise exploratoria)(ingestão de dados) importar consumir dados api sem autenticacao
 
