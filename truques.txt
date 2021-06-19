@@ -251,6 +251,8 @@ R
 #########################
 
 
+
+
 #######################
 #R: Ingestão de dados
 #################
@@ -280,16 +282,20 @@ casos <- read_delim("FGV/Caso de Uso - Projeto Final/Caso de uso/20210525_Casos-
 library("writexl")
 write_xlsx(vacinacao_obitos_idosos_pib,"obitos&Vacina&PIB.xlsx")
 
-# R (r)(dados)(analise exploratoria)(ingestão de dados) correlação com R correlacao
->install.packages("PerformanceAnalytics")
-library(PerformanceAnalytics)
-chart.Correlation(dados, histogram=TRUE, pch=19)
-
 # R (r)(dados)(analise exploratoria)(ingestão de dados) importar consumir dados api sem autenticacao
 
 [manipulando dataset com sql]
 library(sqldf)
 sqldf("Select...")
+
+
+
+
+
+
+#######################
+#R: Ingestão de dados com API
+#################
 
 # (links) api R dataset ingestão de dados
 https://operdata.com.br/blog/trabalhando-com-api-no-r/
@@ -408,6 +414,10 @@ content_text <- rawToChar(req$content)
 > Convertendo a estrutura JSON no formato caratere para um objeto do R
 content_json <- fromJSON(content_text, flatten=TRUE)
 
+
+
+
+
 ######################
 ##R Manipulando datas
 ######################
@@ -416,6 +426,10 @@ content_json <- fromJSON(content_text, flatten=TRUE)
 > install.packages('lubridate')
 library(lubridate)
 final$data_inicio <- dmy(final$data_inicio)
+
+
+
+
 
 
 ###################
@@ -429,14 +443,21 @@ chartr("áéíó", "aeio", vacinas$Município)
 
 
 
+
+
+
 #################################
 R: Text Processing with stringr
 #################################
+
+
 
 # (link) (processamento de texto) (r) (dados) stringr
 https://www.mjdenny.com/Text_Processing_In_R.html
 https://github.com/rstudio/cheatsheets/blob/master/strings.pdf
 https://stringr.tidyverse.org/
+
+
 
 # processamento de texto stringr (r) (dados) (analise exploratoria) lowercase, concatenate text, split text, grep
 
@@ -486,3 +507,48 @@ Clean_String <- function(string){
     } 
     return(temp)
 }
+
+
+
+
+
+
+
+#############################################
+# R Normalizing, correlation and regression
+#############################################
+
+# R (link)(r)(dados)(analise exploratoria)(ingestão de dados) correlação com R correlacao
+https://rpubs.com/rcleoni/cor_reg
+
+
+# R (r)(dados)(analise exploratoria)(ingestão de dados) correlação com R correlacao
+>install.packages("PerformanceAnalytics")
+library(PerformanceAnalytics)
+chart.Correlation(dados, histogram=TRUE, pch=19)
+
+>Lib maneira
+library(GGally)
+ggpairs(df[,(3:5)], lower = list(continuous = "smooth"))
+
+
+# R (r)(dados) Normalizing Normalizando normalizar
+#Data Normalizing
+#df2CorNorm = scale(df2Cor, center = T)
+
+
+# R (r)(dados)(link) Normalizing Normalizando normalizar padronizar standard
+https://rpubs.com/victorpasson/normalizacao#:~:text=Padroniza%C3%A7%C3%A3o%2FNormaliza%C3%A7%C3%A3o%20no%20R&text=Muitas%20vezes%20quando%20falamos%20em,a%20mesma%20escala%20de%20valores.
+
+[Normalização]
+> normalizar tem como objetivo colocar as variáveis dentro do intervalo de 0 e 1, caso tenha resultado negativo -1 e 1.
+
+>Normalmente adotamos normalização Distibucional quando queremos obter simetria dos dados, remoção de valores extremos, etc
+df2CorNorm = log(df2Cor$totalObitosPos)
+hist(df2CorNorm)
+hist(df2Cor$totalObitosPos)
+
+[Padronizar]
+> padronizar significa transformar todas as variáveis na mesma ordem de grandeza
+df2CorNorm = scale(df2Cor, center = T)
+?scale
