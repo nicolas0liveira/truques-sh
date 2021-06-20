@@ -527,9 +527,22 @@ https://rpubs.com/rcleoni/cor_reg
 library(PerformanceAnalytics)
 chart.Correlation(dados, histogram=TRUE, pch=19)
 
->Lib maneira
+>Lib maneira para análise exploratória
 library(GGally)
 ggpairs(df[,(3:5)], lower = list(continuous = "smooth"))
+
+> 2 exemplo
+library(GGally)
+ggpairs(vacina
+        , columns = c( "paciente_idade"
+                       ,"paciente_idade2"
+                       , "paciente_enumSexoBiologico"
+                       , "vacina_descricao_dose"
+                       #, "paciente_racaCor_valor"
+        )
+        , lower = list(continuous = "smooth")
+        , ggplot2::aes(colour=paciente_enumSexoBiologico)
+)
 
 
 # R (r)(dados) Normalizing Normalizando normalizar
