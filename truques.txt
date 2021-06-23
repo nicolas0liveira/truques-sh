@@ -48,6 +48,13 @@ sudo /opt/ovpnserpro/openvpn --mktun --dev ovpntun0 --dev-type tun
 for i in $(sed -n '2,$p' 1.csv | iconv -f ISO-8859-1 |  csvcut -c 1|sort -u);do sed -n "1p;/^$i,/p" 1.csv > $i.csv
 
 
+# converter codificação codificacao arquivo para UTF8
+iconv -f US-ASCII -t utf-8 file.php > file-utf8.php
+
+>listar os codigos
+iconv -l
+
+
 ###############
 ##Python
 ###############
@@ -531,17 +538,22 @@ chart.Correlation(dados, histogram=TRUE, pch=19)
 library(GGally)
 ggpairs(df[,(3:5)], lower = list(continuous = "smooth"))
 
-> 2 exemplo
+> 2
 library(GGally)
-ggpairs(vacina
-        , columns = c( "paciente_idade"
-                       ,"paciente_idade2"
-                       , "paciente_enumSexoBiologico"
-                       , "vacina_descricao_dose"
-                       #, "paciente_racaCor_valor"
-        )
-        , lower = list(continuous = "smooth")
-        , ggplot2::aes(colour=paciente_enumSexoBiologico)
+ggpairs(data
+        , mapping = NULL
+        , columns = 1:ncol(data)
+        , title = NULL
+        , upper = list(continuous = "cor", combo = "box_no_facet", discrete = "facetbar", na = "na")
+        , lower = list(continuous = "points", combo = "facethist", discrete = "facetbar", na = "na")
+        , diag = list(continuous = "densityDiag", discrete = "barDiag", na = "naDiag")
+        , params = NULL, xlab = NULL, ylab = NULL
+        , axisLabels = c("show", "internal", "none")
+        , columnLabels = colnames(data[columns])
+        , labeller = "label_value"
+        , showStrips = NULL
+        , legend = NULL, cardinality_threshold = 15
+        , legends = stop("deprecated")
 )
 
 
