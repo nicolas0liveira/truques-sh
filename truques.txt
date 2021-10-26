@@ -33,6 +33,8 @@ ip a
 # Apagar interfaces (vpn)(ovpn)(rede)
 ip link set dev br-6bab82831303 down
 
+# rede interfaces
+nmcli
 
 # Reiniciar Bash RC
 
