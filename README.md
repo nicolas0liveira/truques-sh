@@ -1,2 +1,2 @@
 # truques-sh
-meus truques
+Meus truques shell
