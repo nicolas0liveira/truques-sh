@@ -1,0 +1,21 @@
+### Assumindo os diretórios:
+~/dev/r41
+~/dev/redmine_plugins
+
+### Script em /usr/local/bin/r41m
+
+#!/bin/bash
+[ -d 'plugins' ] && cd plugins || cd $HOME/dev/r41/plugins
+
+echo "Desmontando diretórios..."
+find -maxdepth 1 -mindepth 1 -type d -exec umount {} \; 2> /dev/null
+
+[ -z "$1" ] && echo "Montando diretórios..." && find -maxdepth 1 -mindepth 1 -type d -exec mount --bind $HOME/dev/redmine_plugins/{} {} \; -exec echo "{} mounted." \; 2> /dev/null
+
+### no ~/.bashrc (no final)
+
+alias r41m='/usr/bin/sudo /usr/local/bin/r41m'
+
+### no /etc/sudoers.d/06_redmine
+
+%adm ALL=NOPASSWD: /usr/local/bin/r41m
