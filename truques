@@ -1,5 +1,5 @@
 #!/bin/bash
-# Procura dicas no arquivo de truques
+# Procura dicas no arquivo de truques (trobleshooting)
 # modificado por Nícolas, de Fred Camara - rev 2018-07-12
 # colocar o arquivo em: i) /usr/local/bin ou ii) /local/share/bin  iii) no path
 

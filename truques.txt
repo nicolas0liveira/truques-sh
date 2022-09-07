@@ -1,5 +1,5 @@
 ##################
-# Meus Truques  #
+# Meus Truques  # - trobleshooting
 #################
 
 ######################
@@ -36,25 +36,25 @@ ip link set dev br-6bab82831303 down
 # rede interfaces
 nmcli
 
-# Reiniciar Bash RC
-
-source ~/.bashrc
-ou 
-. ~/.bashrc
-
 # Recriar um dev tunel OVPN
 sudo /opt/ovpnserpro/openvpn --mktun --dev ovpntun0 --dev-type tun
-
 
 # Separar um arquivo csv de evidencias kpi
 for i in $(sed -n '2,$p' 1.csv | iconv -f ISO-8859-1 |  csvcut -c 1|sort -u);do sed -n "1p;/^$i,/p" 1.csv > $i.csv
 
-
 # converter codificação codificacao arquivo para UTF8
 iconv -f US-ASCII -t utf-8 file.php > file-utf8.php
 
->listar os codigos
+>listar os codigos de codificacao disponíveis: ISO8859, UTF-8 etc
 iconv -l
+
+
+################################
+# Assinatura Digital e Chaves
+###############################
+
+# incluir chave gpg (assinatura digital)
+wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
 
 
 ###############
