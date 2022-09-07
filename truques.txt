@@ -57,6 +57,34 @@ iconv -l
 wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
 
 
+######
+# GIT
+######
+
+# Generate a SSH key pair (private/public) (git):
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+# Test the SSH key (git)
+ssh -T git@github.com
+
+# define alternative keys for git
+~/.ssh/config
+Incluir:
+Host github.com
+ HostName github.com
+ IdentityFile ~/.ssh/id_rsa_github
+
+ >chmod 600 ~/.ssh/config
+
+
+# verificar repositórios remotos existentes (GIT)
+git remote -v
+
+#mudar a url repositorio remoto (git):
+git remote set-url origin git@github.com:{ORG_NAME}/{REPO_NAME}.git
+
+
+
 ###############
 ##Python
 ###############
