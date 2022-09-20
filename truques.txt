@@ -27,19 +27,19 @@ ip link delete br-6bab82831303 ip link delete br-f3681cd16956
 # reiniciar configurações de DNS (vpn)(ovpn)(rede)
 systemctl restart systemd-resolved
 
-# Ver rotas (vpn)(ovpn)(rede)
+# Ver rotas (vpn)(ovpn)(rede) ip
 ip r
 
-# Ver interfaces (vpn)(ovpn)(rede)
+# Ver interfaces (vpn)(ovpn)(rede) ip
 ip a
 
-# Apagar interfaces (vpn)(ovpn)(rede)
+# Apagar interfaces (vpn)(ovpn)(rede) ip
 ip link set dev br-6bab82831303 down
 
-# rede interfaces
+# rede interfaces nmcli
 nmcli
 
-# Recriar um dev tunel OVPN
+# Recriar um dev tunel ovpn
 sudo /opt/ovpnserpro/openvpn --mktun --dev ovpntun0 --dev-type tun
 
 # Separar um arquivo csv de evidencias kpi
@@ -73,11 +73,15 @@ For directories it's possible to exclude one or more directories using the --exc
 grep --exclude-dir={dir1,dir2,*.dst} -rnw '/path/to/somewhere/' -e "pattern"
 
 
+# ver detalhes do pacote linux
+apt show <nome pacote>
+
+
 ################################
 # Assinatura Digital e Chaves
 ###############################
 
-# incluir chave gpg (assinatura digital)
+# incluir chave gpg (assinatura digital) wget
 wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
 
 
@@ -85,13 +89,13 @@ wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --d
 # GIT
 ######
 
-# Generate a SSH key pair (private/public) (git):
+# Generate a SSH key pair (private/public) (git) ssh-keygen
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 
 # Test the SSH key (git)
 ssh -T git@github.com
 
-# define alternative keys for git
+# define alternative keys for git ssh
 ~/.ssh/config
 Incluir:
 Host github.com
@@ -101,17 +105,33 @@ Host github.com
  >chmod 600 ~/.ssh/config
 
 
-# verificar repositórios remotos existentes (GIT)
+# verificar repositórios remotos existentes (git)
 git remote -v
 
 #mudar a url repositorio remoto (git):
 git remote set-url origin git@github.com:{ORG_NAME}/{REPO_NAME}.git
 
+# ajustar o último commit (git)
+git commit -a ou git commit --amend
+#Por padrão o amend fará o ajuste do último commit gerando um novo commit
+
+# (site link) site bacana sobre git https://gitfichas.com/ (git)
+https://gitfichas.com/
+
+
+#######################
+# Instalando Conda
+####################
+
+# criar e ativar ambiente no conda python
+conda create python=3 --yes --name <nome_env>
+conda activate <nome_env>
 
 
 ###############
 ##Python
 ###############
+
 
 # Carregando biblioteca python para trabalhar com números (config ambiente python)
 import numpy as np
@@ -258,8 +278,6 @@ Replace with the values in the next column
 df.fillna(axis=1, method='bfill')
 
 # tratar NA - substituição comum é trocar os valores de NaN pela média. (python)(dados)(pandas)(analise exploratoria)
-
-
 df['Age'].fillna(value=df['Age'].mean(), inplace=True)
 
 #########################################
@@ -512,7 +530,6 @@ R: Text Processing with stringr
 #################################
 
 
-
 # (link) (processamento de texto) (r) (dados) stringr
 https://www.mjdenny.com/Text_Processing_In_R.html
 https://github.com/rstudio/cheatsheets/blob/master/strings.pdf
@@ -637,7 +654,7 @@ df2CorNorm = scale(df2Cor, center = T)
 # Configurando Java
 ###############################
 
-#configurando as variáveis de ambiente
+#configurando as variáveis de ambiente (configurando java)(update-alternatives)
 cat /etc/profile.d/java.sh :
 #>>> variaveis de ambiente >>>
 export JAVA_HOME=/usr/lib/jvm/jdk-17
@@ -645,20 +662,20 @@ export PATH=$PATH:$JAVA_HOME/bin
 #<<< variaveis de ambiente <<<
 
 
-# atualizando a referencia (update-alternative) (configurando java)
+# atualizando a referencia (update-alternatives) (configurando java) variáveis de ambiente
 sudo update-alternatives — install “/usr/bin/java” “java” “<Directory where JAVA has been extracted>/bin/java” 1
 sudo update-alternatives — install “/usr/bin/javac” “javac” “<Directory where JAVA has been extracted>/bin/javac” 1
 sudo update-alternatives — install “/usr/bin/javaws” “javaws” “<Directory where JAVA has been extracted>/bin/javaws” 1
 
-# setando qual java usar   (update-alternative) (configurando java)
+# setando qual java usar   (update-alternatives) (configurando java) variáveis de ambiente
 sudo update-alternatives — set java <Directory where JAVA has been extracted>/bin/java
 sudo update-alternatives — set javac <Directory where JAVA has been extracted>/bin/ javac
 sudo update-alternatives — set javaws <Directory where JAVA has been extracted>/bin/javaws
 
-# setando qual java usar   (update-alternative) (configurando java)
+# setando qual java usar   (update-alternatives) (configurando java) variáveis de ambiente
 sudo update-alternatives --config java
 
-# ver quais os updates instalados  (update-alternative) (configurando java)
+# ver quais os updates instalados  (update-alternatives) (configurando java) variáveis de ambiente
 sudo update-alternatives --list java
 
 
