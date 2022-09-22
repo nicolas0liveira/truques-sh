@@ -1,4 +1,4 @@
-##################
+r nossa##################
 # Meus Truques  # - trobleshooting
 #################
 
@@ -76,6 +76,8 @@ grep --exclude-dir={dir1,dir2,*.dst} -rnw '/path/to/somewhere/' -e "pattern"
 # ver detalhes do pacote linux
 apt show <nome pacote>
 
+# analisar rede wifi tool wiriless info workarround
+wget -N -t 5 -T 10 https://github.com/UbuntuForums/wireless-info/raw/master/wireless-info && chmod +x wireless-info && ./wireless-info
 
 ################################
 # Assinatura Digital e Chaves
@@ -84,6 +86,9 @@ apt show <nome pacote>
 # incluir chave gpg (assinatura digital) wget
 wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
 
+
+# ver cadeia de certificado de um servidor (ssh)(showcerts)
+echo -n | openssl s_client -showcerts -connect gitcorporativo.serpro:443 2>/dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p'
 
 ######
 # GIT
