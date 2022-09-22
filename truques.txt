@@ -83,8 +83,14 @@ wget -N -t 5 -T 10 https://github.com/UbuntuForums/wireless-info/raw/master/wire
 # Assinatura Digital e Chaves
 ###############################
 
-# incluir chave gpg (assinatura digital) wget
+# incluir chave gpg (assinatura digital) wget ssh
 wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
+
+# incluir chave gpg (assinatura digital wget (serpro) ssh
+wget -O- https://assinadorserpro.estaleiro.serpro.gov.br/repository/AssinadorSERPROpublic.asc | sudo gpg --dearmor --yes --output /etc/apt/trusted.gpg.d/assinador-serpro.gpg
+
+source.list.d/assinaor-serpro.list
+deb [signed-by=/etc/apt/trusted.gpg.d/assinador-serpro.gpg] https://www.assinadorserpro.estaleiro.serpro.gov.br/repository/ universal stable
 
 
 # ver cadeia de certificado de um servidor (ssh)(showcerts)
@@ -668,14 +674,14 @@ export PATH=$PATH:$JAVA_HOME/bin
 
 
 # atualizando a referencia (update-alternatives) (configurando java) variáveis de ambiente
-sudo update-alternatives — install “/usr/bin/java” “java” “<Directory where JAVA has been extracted>/bin/java” 1
-sudo update-alternatives — install “/usr/bin/javac” “javac” “<Directory where JAVA has been extracted>/bin/javac” 1
-sudo update-alternatives — install “/usr/bin/javaws” “javaws” “<Directory where JAVA has been extracted>/bin/javaws” 1
+sudo update-alternatives — install “/usr/bin/java” “java” “$JAVA_HOME/bin/java” 1
+sudo update-alternatives — install “/usr/bin/javac” “javac” “$JAVA_HOME/bin/javac” 1
+sudo update-alternatives — install “/usr/bin/javaws” “javaws” “$JAVA_HOME/bin/javaws” 1
 
 # setando qual java usar   (update-alternatives) (configurando java) variáveis de ambiente
-sudo update-alternatives — set java <Directory where JAVA has been extracted>/bin/java
-sudo update-alternatives — set javac <Directory where JAVA has been extracted>/bin/ javac
-sudo update-alternatives — set javaws <Directory where JAVA has been extracted>/bin/javaws
+sudo update-alternatives — set java $JAVA_HOME/bin/java
+sudo update-alternatives — set javac $JAVA_HOME/bin/ javac
+sudo update-alternatives — set javaws $JAVA_HOME/bin/javaws
 
 # setando qual java usar   (update-alternatives) (configurando java) variáveis de ambiente
 sudo update-alternatives --config java
