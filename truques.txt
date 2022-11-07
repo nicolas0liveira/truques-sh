@@ -1,9 +1,9 @@
-r nossa##################
+#########################################
 # Meus Truques  # - trobleshooting
-#################
+######################################
 
 ######################
-# Terminal or sh    #
+# Terminal          #
 #####################
 
 # converter arquivo ods to xls
@@ -96,6 +96,48 @@ deb [signed-by=/etc/apt/trusted.gpg.d/assinador-serpro.gpg] https://www.assinado
 # ver cadeia de certificado de um servidor (ssh)(showcerts)
 echo -n | openssl s_client -showcerts -connect gitcorporativo.serpro:443 2>/dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p'
 
+# configurando KeePassXC connect-to-github-with-vs-code
+https://askubuntu.com/questions/1256345/cant-connect-to-github-with-vs-code
+
+The configuration steps for KeePassXC are:
+1. Optional. Install libsecret-tools. It contains a binary called secret-tool which can be used from the cli to test if things are working.
+
+2. In KeePassXC, open a database in which you want to hold the secrets and create a group inside the database. Can be named anything. e.g. 'Secret-Service-Integration'
+
+3. In KeePassXC, go to Tools > Settings > Secret-Service-Integration and check the Enable KeepassXC Freedesktop.org Secret Service integration check box. Press Ok to close the Application Settings screen.
+
+4. In KeePassXC, go to Tools > Settings > Secret-Service-Integration and in the General tab, in the Exposed database groups table, click the small pencil icon next to the database you want to host the secrets. Doing this will switch you to the Database's Settings dialog which also now has a Secret Service Integration section. Click on Secret Service Integration and then check the Expose entries under this group radio option. Select the group you created in step 2 above. Click Ok.
+
+5.Optional. Whilst the database is unlocked in KeePassXC, test storing a credential via:
+secret-tool store --label='Created from cli' account test1
+
+
+# trabalhando com nssdb e certutil (certificado) (crt)
+remove database
+rm -r ~/.pki/nssdb
+
+create database directory
+mkdir -p ~/.pki/nssdb
+
+list all certificates
+certutil -d sql:$HOME/.pki/nssdb -L
+
+list of hosts to get certificates from
+hosts="ip-of-squid-proxy1:443 ip-of-squid-proxy2:443"
+
+import each as trusted proxy
+for host in ${hosts}; do
+  echo "" | openssl s_client -connect ${host} -prexit 2>/dev/null | sed -n -e '/BEGIN\ CERTIFICATE/,/END\ CERTIFICATE/ p' > "${host}.crt"
+  certutil -d sql:$HOME/.pki/nssdb -A  -t P,P,P -n "${host}" -i ${host}.crt
+  rm ${host}.crt
+done
+
+show certificate
+certutil -L -d sql:$HOME/.pki/nssdb -n certname
+
+delete
+certutil -d sql:$HOME/.pki/nssdb -D -n certificate_nickname
+
 ######
 # GIT
 ######
@@ -134,9 +176,14 @@ https://gitfichas.com/
 # Instalando Conda
 ####################
 
-# criar e ativar ambiente no conda python
+# ativa/desativar auto inicializacao conda anaconda set auto activate
+conda config --set auto_activate_base false
+
+
+# criar e ativar ambiente no conda python activate env
 conda create python=3 --yes --name <nome_env>
 conda activate <nome_env>
+
 
 
 ###############

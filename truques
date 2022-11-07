@@ -9,6 +9,9 @@ headers=$(sed -n '/^#/p' "$arq")
 
 for i in $args; do
   headers=$(sed -n "/^#.*$i/Ip" <<< "$headers")
+  ]dfsdfsdf
+
+  add-shell
 done
 
 echo -e '\n'
