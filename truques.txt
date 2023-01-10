@@ -55,6 +55,16 @@ iconv -l
 xsel --clipboard < new-clipboard-contents.txt
 xsel --clipboard > current-clipboard-contents.txt
 
+# o neoid não aparecia no ovpn. Tive que ativar serviço pcscd (ovpn)(neoid)
+systemctl status pcscd.service
+systemctl enable pcscd.service
+systemctl start pcscd.service
+
+# adicionar o modulo do token preto no chrome (ovpn)(neoid)
+modutil -dbdir sql:.pki/nssdb/ -add "SafeSign" -libfile /usr/lib/libaetpkss.so
+
+ 
+
 
 # pesquisar dentro dos arquivos por determinado padrão (find) (egrep)(so)
 grep -rnw '/path/to/somewhere/' -e 'pattern'
@@ -89,7 +99,13 @@ wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --d
 # incluir chave gpg (assinatura digital wget (serpro) ssh
 wget -O- https://assinadorserpro.estaleiro.serpro.gov.br/repository/AssinadorSERPROpublic.asc | sudo gpg --dearmor --yes --output /etc/apt/trusted.gpg.d/assinador-serpro.gpg
 
-source.list.d/assinaor-serpro.list
+wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo gpg --dearmor -o /usr/share/keyrings/r-project.gpg
+
+
+#exemplo incluir chave pgp (assinatura publica) no source deb (ssh) (assinatura digital)
+echo "deb [signed-by=/usr/share/keyrings/r-project.gpg] https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/" | sudo tee -a /etc/apt/sources.list.d
+
+#source.list.d/assinaor-serpro.list
 deb [signed-by=/etc/apt/trusted.gpg.d/assinador-serpro.gpg] https://www.assinadorserpro.estaleiro.serpro.gov.br/repository/ universal stable
 
 
@@ -579,8 +595,28 @@ R: processamento de texto
 chartr("áéíó", "aeio", vacinas$Município)
 
 
+################################
+# MONGO DB                    #
+##############################
 
+# mongodb
+O mondo db é um banco de dados orientado a documentos: https://www.mongodb.com
 
+# intalação mongodb
+baixar o tar no site https://www.mongodb.com/try/download/community
+descompactar: tar -xvf <file>.tar.gz
+mover: mv /<file>  /home/nicolas/opt/mongodb
+criar um diretório que abrigará os databases:mkdir /home/nicolas/opt/mongodb/database 
+
+# iniciar o mongodb
+mongod --dbpath /home/nicolas/opt/mongodb/database
+
+# instalar a interface visual do mongodb
+cd /home/nicolas/opt/mongodb/bin
+sudo ./install_compass
+
+# iniciar interface visual do mongodb é o mongo-compass
+mongodb-compass
 
 
 #################################
