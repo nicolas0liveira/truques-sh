@@ -63,8 +63,9 @@ systemctl start pcscd.service
 # adicionar o modulo do token preto no chrome (ovpn)(neoid)
 modutil -dbdir sql:.pki/nssdb/ -add "SafeSign" -libfile /usr/lib/libaetpkss.so
 
- 
-
+# The following packages have been kept back / verificar pacotes apt 
+https://itsfoss.com/following-packages-have-been-kept-back/
+sudo apt install --only-upgrade package_name
 
 # pesquisar dentro dos arquivos por determinado padrão (find) (egrep)(so)
 grep -rnw '/path/to/somewhere/' -e 'pattern'
@@ -88,6 +89,46 @@ apt show <nome pacote>
 
 # analisar rede wifi tool wiriless info workarround
 wget -N -t 5 -T 10 https://github.com/UbuntuForums/wireless-info/raw/master/wireless-info && chmod +x wireless-info && ./wireless-info
+
+
+# Docker pagar todos os containers dockers
+docker rmi -f $(docker images -aq)
+
+# Docker ver todos os ips dos containers
+docker ps -q | xargs -n 1 docker inspect --format '{{.Name}}: {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
+
+
+################################
+# Spring Maven mvn
+###############################
+
+# maven run spring boot application, using extrenal configuration file, and setting profile as dev
+./mvnw spring-boot:run -DcommandlineArguments="--spring-boot.run.profiles=dev  --spring.config.additional-location=file:///home/nicolas/GDrive/dev/spring-app-configs/egb/application.properties"
+
+# mvn maven spring boot empacotar usando maven
+./mvnw clean package spring-boot:repackage -DcommandlineArguments="--spring-boot.run.profiles=dev  --spring.config.additional-location=file:///home/nicolas/GDrive/dev/spring-app-configs/egb/application.properties"
+
+ //só rodando o mnv clean e package
+./mvnw clean package -Dspring-boot.run.profiles=dev  -Dspring.config.additional-location=file:///home/nicolas/GDrive/dev/spring-app-configs/egb/application.properties -Dspring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+
+java -jar target/XXXXX.jar  --spring.profiles.active=dev --spring.config.additional-location=file:///home/nicolas/GDrive/dev/spring-app-configs/egb/application.properties
+
+
+# executar projeto spring2 maven no vscode: modificar o arquivo launch.json, incluir:
+"args": "--spring.profiles.active=dev --spring.config.additional-location=file:///home/nicolas/GDrive/dev/spring-app-configs/egb/application.properties",
+
+@PropertySource(ignoreResourceNotFound=true,value="classpath:jdbc-${spring.profiles.active}.properties")
+public class DBConfig{
+
+     @Value("${jdbc.host}")
+        private String jdbcHostName;
+     }
+}
+
+
+
+
 
 ################################
 # Assinatura Digital e Chaves
@@ -160,6 +201,8 @@ certutil -d sql:$HOME/.pki/nssdb -D -n certificate_nickname
 
 # Generate a SSH key pair (private/public) (git) ssh-keygen
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+xsel --clipboard < new-clipboard-contents.txt
 
 # Test the SSH key (git)
 ssh -T git@github.com
@@ -776,6 +819,22 @@ sudo update-alternatives --config java
 # ver quais os updates instalados  (update-alternatives) (configurando java) variáveis de ambiente
 sudo update-alternatives --list java
 
+# usando sdkman
+--instalação sdkman
+https://sdkman.io/install
+$ curl -s "https://get.sdkman.io" | bash
+
+--ver verssão
+sdk version
+
+--listando 
+sdk list java
+
+--alterar 
+sdk use java 11.0.0-open
+
+--setando java default
+sdk default java 11.0.0-open
 
 ###################
 # JAVA -Spring
